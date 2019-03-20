@@ -76,7 +76,7 @@ func main() {
 
 ```
 
-##API
+## API
 ``` gorun.WM() ``` - return worker manager singleton instance
 
 ``` gorun.New() ``` - create new worker manager
@@ -133,6 +133,6 @@ available statuses:
 
 
 
-#Notice
+# Notice
 in gorutine use ```defer worker.Stop()``` - for remove worker from worker manager
 
