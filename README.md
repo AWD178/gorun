@@ -8,17 +8,33 @@ package main
 import (
 	"gorun"
 	"fmt"
+	"net/http"
 	"time"
 )
 
 func main() {
 	gorun.WM().AddWorker("testWorker", map[string]interface{}{"data": 123}, func(w *gorun.Worker) {
+		defer w.Stop()
 		for {
 			if w.IsRun() {
 				fmt.Println(`Worker `, w.Name, ` is working`)
 				time.Sleep(1 * time.Second)
 			}
 
+			if w.IsPause() {
+				fmt.Println(`Worker `, w.Name, ` is pause`)
+				time.Sleep(1 * time.Second)
+			}
+		}
+	})
+
+	gorun.WM().AddWorker("testWorker2", map[string]interface{}{"data": 123}, func(w *gorun.Worker) {
+		defer w.Stop()
+		for {
+			if w.IsRun() {
+				fmt.Println(`Worker `, w.Name, ` is working`)
+				time.Sleep(1 * time.Second)
+			}
 			if w.IsPause() {
 				fmt.Println(`Worker `, w.Name, ` is pause`)
 				time.Sleep(1 * time.Second)
@@ -59,9 +75,6 @@ func main() {
 	gorun.WM().RunAll()
 
 	time.Sleep(5 * time.Second)
-
-
-	gorun.WM().RemoveWorker(`testWorker`)
 	if w, err := gorun.WM().Get(`testWorker`); err == nil {
 		w.Pause()
 		time.Sleep(5  * time.Second)
@@ -69,9 +82,6 @@ func main() {
 
 	gorun.WM().RemoveWorker(`testWorker`)
 	gorun.WM().RemoveWorker(`testWorker`)
-
-	fmt.Println(gorun.WM().Workers)
-
 }
 
 ```
