@@ -46,15 +46,15 @@ func (tm *WorkerManager) removeWorker(name string) {
 func (tm *WorkerManager) AddWorker(name string, params interface{}, cb func(*Worker)) error {
 	if tm.workerExists(name) {
 		return fmt.Errorf(`worker with name [%s] exists`, name)
-	} else {
-		tm.Workers[name] = &Worker{
-			Name:   name,
-			Status: WorkerCreate,
-			Params: params,
-			Fn:     cb,
-			tm:     tm,
-		}
 	}
+	tm.Workers[name] = &Worker{
+		Name:   name,
+		Status: WorkerCreate,
+		Params: params,
+		Fn:     cb,
+		tm:     tm,
+	}
+
 	return nil
 }
 
@@ -103,9 +103,9 @@ func (tm *WorkerManager) SetStatus(name string, status int) error {
 	if inArray([]int{WorkerCreate, WorkerRun, WorkerPause, WorkerStop}, status) {
 		tm.Workers[name].Status = status
 		return nil
-	} else {
-		return fmt.Errorf(`worker status not found`)
 	}
+
+	return fmt.Errorf(`worker status not found`)
 }
 
 // RemoveWorker - remove worker by worker name
