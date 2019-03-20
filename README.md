@@ -76,7 +76,7 @@ func main() {
 
 ```
 
-#API
+##API
 ``` gorun.WM() ``` - return worker manager singleton instance
 
 ``` gorun.New() ``` - create new worker manager
