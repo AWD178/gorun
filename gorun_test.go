@@ -31,7 +31,7 @@ func TestWorkerManagerCreate(t *testing.T) {
 
 func TestAddWorker(t *testing.T) {
 	t.Log(`Add new worker`)
-	e := WM().AddWorker(`test_worker`, nil, testFunc)
+	_, e := WM().AddWorker(`test_worker`, nil, testFunc)
 	if e != nil {
 		t.Errorf(`Error create worker: %s`, e)
 	} else {
@@ -41,14 +41,14 @@ func TestAddWorker(t *testing.T) {
 
 func TestTwoWorkersWithSameName(t *testing.T) {
 	t.Log(`Add two workers with the same name`)
-	e := WM().AddWorker(`test_worker_1`, nil, testFunc)
+	_, e := WM().AddWorker(`test_worker_1`, nil, testFunc)
 	if e != nil {
 		t.Errorf(`Error create worker: %s`, e)
 	} else {
 		t.Log(`Worker test_worker_1 created`)
 	}
 
-	e = WM().AddWorker(`test_worker_1`, nil, testFunc)
+	_, e = WM().AddWorker(`test_worker_1`, nil, testFunc)
 	if e == nil {
 		t.Errorf(`Worker with the same name exists`)
 	} else {

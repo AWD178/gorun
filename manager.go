@@ -43,9 +43,9 @@ func (tm *WorkerManager) removeWorker(name string) {
 // AddWorker - add new worker to worker manager
 // return
 // err - error, if worker with the same name exists
-func (tm *WorkerManager) AddWorker(name string, params interface{}, cb func(*Worker)) error {
+func (tm *WorkerManager) AddWorker(name string, params interface{}, cb func(*Worker)) (*Worker, error) {
 	if tm.workerExists(name) {
-		return fmt.Errorf(`worker with name [%s] exists`, name)
+		return nil, fmt.Errorf(`worker with name [%s] exists`, name)
 	}
 	tm.Workers[name] = &Worker{
 		Name:   name,
@@ -55,7 +55,7 @@ func (tm *WorkerManager) AddWorker(name string, params interface{}, cb func(*Wor
 		tm:     tm,
 	}
 
-	return nil
+	return tm.Workers[name], nil
 }
 
 // GetWorkers - return workers list in queue
@@ -122,6 +122,15 @@ func (tm *WorkerManager) Get(name string) (*Worker, error) {
 	if !tm.workerExists(name) {
 		return nil, fmt.Errorf(`worker %s not found`, name)
 	}
+	return tm.Workers[name], nil
+}
+
+// Run - run worker or return error
+func (tm *WorkerManager) Run(name string) (*Worker, error) {
+	if !tm.workerExists(name) {
+		return nil, fmt.Errorf(`worker %s not found`, name)
+	}
+	tm.Workers[name].Run()
 	return tm.Workers[name], nil
 }
 
