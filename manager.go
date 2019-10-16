@@ -65,15 +65,6 @@ func (tm *WorkerManager) GetWorkers() map[string]*Worker {
 	return tm.Workers
 }
 
-//Run selected worker
-func (tm *WorkerManager) Run(name string) bool {
-	if w, ok := tm.Workers[name]; ok {
-		w.Run()
-		return true
-	}
-	return false
-}
-
 // RunAll - run all workers
 func (tm *WorkerManager) RunAll() {
 	for _, worker := range tm.Workers {
